@@ -1,0 +1,59 @@
+function menu()
+choice = 1;
+adj_mat = [];
+while choice ~= 6
+    choice = input('*Welcome to the optimal parking path planning system!*\nPlease select:\n1.View default data           2.input data\n3.View empty parking spaces   4.Seeking path\n5.View free parking order     6.Exit\n');
+    if choice == 1
+        adj_mat =load('f1.txt');
+        fprintf('Default data is:\n');
+        disp(adj_mat);
+    elseif choice == 2
+        adj_mat = input_dat();
+    elseif choice == 3
+        fprintf('empty parking spaces is:\n');
+        B =load('f2.txt');
+        disp(B);
+        c=[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
+d=[0 0 0 0 0 0 0]';
+g=[c;B(4,:);B(3,:);c;B(2,:);B(1,:);c];
+g=[d,g(:,1:8),d,d,d,g(:,9:16),d];
+g=g';
+for x=0:20
+for j=0:6
+if g(x+1,j+1)==1
+ text(x,j,'\diamondsuit','FontSize',30,'LineWidth',1)
+end
+end
+end
+axis([0 21 0 6])
+    elseif choice == 4
+        adj_mat =load('f1.txt');
+        a=load('f6.txt');
+        sta = 1;
+        dst = a(1,1);
+        if sta == dst
+            fprintf('The starting node and destination node can not be the same!\r\n');
+        else
+            [~ , path] = dijkstra(adj_mat , sta , dst);
+            
+            fprintf('The shortest time is:%d\n',a(3,1));
+            fprintf('The generalized shortest distance is:%d\n',a(4,1));
+            k = length(path);
+            fprintf('Through the path:');
+            fid=fopen('f7.txt','w');
+            for i = 1:1:k-1
+                fprintf('%d ---->',path(i));
+                fprintf(fid,'%d ',path(i));
+            end
+            fprintf('%d---->',path(k));
+            fprintf(fid,'%d ',path(k));
+            b=a(2,1);
+            fprintf('P%d\n',b);
+            fprintf(fid,'%d ',b);
+        end
+        elseif choice == 5
+             chewei
+        end
+    end
+end
+
